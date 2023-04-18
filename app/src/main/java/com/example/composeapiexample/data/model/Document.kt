@@ -10,6 +10,7 @@ data class Document(
     val thumbnailURL: String?,
     val width: Double,
 ) {
+    // TODO: retrofit 자체적으로 시리얼라이즈 하는 어뎁터가 있다고 함
     companion object {
         fun fromJson(json: Map<String, Any>): Document = Document(
             collection = json["collection"] as String,
