@@ -1,6 +1,7 @@
 package com.example.composeapiexample.data.data_source
 
 import android.util.Log
+import com.example.composeapiexample.data.model.Document
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,7 +15,8 @@ private val retrofit: Retrofit = Retrofit.Builder().baseUrl("https://dapi.kakao.
 
 private val retrofitAPI: KakaoAPI = retrofit.create(KakaoAPI::class.java)
 
-fun searchImage(query: String = "hello", list: MutableList<String>) {
+fun searchImage(query: String = "hello"): List<Document> {
+    val results = mutableListOf<Document>()
     val call: Call<Map<String, Any>> = retrofitAPI.getSearchImage(
         query = query, token = "KakaoAK 0940c8803b43f3a1f436cb7e88d1f3a5"
     )
@@ -26,11 +28,12 @@ fun searchImage(query: String = "hello", list: MutableList<String>) {
         ) {
             Log.d(TAG, "onResponse 성공")
             if (response.isSuccessful) {
-                val results = response.body()!!
-                val docs = results["documents"] as List<*>
+                val responseBody = response.body()!!
+                val docs = responseBody["documents"] as List<*>
                 for (doc in docs) {
-
-                    Log.d(TAG, "doc: $doc")
+                    val castedDoc = Document.fromJson(doc as Map<String, Any>)
+                    Log.d(TAG, "doc: $castedDoc")
+                    results.add(castedDoc)
                 }
             }
         }
@@ -39,5 +42,6 @@ fun searchImage(query: String = "hello", list: MutableList<String>) {
             Log.d(TAG, "onFailure 실패")
         }
     })
+    return results
 }
 

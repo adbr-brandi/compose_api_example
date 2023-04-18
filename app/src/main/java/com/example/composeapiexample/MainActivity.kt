@@ -12,13 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.example.composeapiexample.data.data_source.searchImage
 import com.example.composeapiexample.ui.theme.ComposeAPIExampleTheme
+import org.w3c.dom.Document
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val list = mutableListOf<String>()
-            val result = searchImage(query = "bora", list = list)
+            val list = mutableListOf<Document>()
+            val result = searchImage(query = "bora")
 
             print(result)
 
