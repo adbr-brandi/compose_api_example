@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.example.composeapiexample.data.data_source.getJSONData
+import com.example.composeapiexample.data.data_source.searchImage
 import com.example.composeapiexample.ui.theme.ComposeAPIExampleTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +18,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val list = mutableListOf<String>()
-            val result = getJSONData(query = "bora", list = list)
+            val result = searchImage(query = "bora", list = list)
+
             print(result)
 
             ComposeAPIExampleTheme {
