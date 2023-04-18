@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.example.composeapiexample.data.data_source.getJSONData
 import com.example.composeapiexample.ui.theme.ComposeAPIExampleTheme
 
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
-                    Greeting(list[0].toString())
+                    Greeting(list.toString())
                 }
             }
         }
@@ -34,5 +35,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(result: String) {
-    Text(text = result)
+    Text(
+        text = result,
+        modifier = Modifier.fillMaxSize(),
+        textAlign = TextAlign.Center,
+    )
 }
