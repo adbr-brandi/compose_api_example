@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface KakaoAPI {
     @GET("v2/search/image")
     fun getSearchImage(
+        @Header("Authorization") token: String,
         @Query("query") query: String,
-        @Header("Authorization") authorization: String,
     ): Call<Map<String, Any>>
 }
