@@ -34,12 +34,19 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
-                    Greeting(
+                    SearchPage(
                         query = query, setQuery = setQuery,
                         onSearch = {
-                            val results = searchImage(query = query)
-                            list.addAll(results)
-                            Log.d("TAG", "onCreate: list $list")
+                            searchImage(query = query) {
+                                val docs = it["documents"] as List<*>
+                                for (doc in docs) {
+                                    val castedDoc =
+                                        Document.fromJson(json = doc as Map<String, Any>)
+                                    list.add(castedDoc)
+                                    Log.d("TAG", "onCreate: list $list")
+                                    Log.d("TAG", "------")
+                                }
+                            }
                         },
                         results = list.toString(),
                     )
@@ -50,7 +57,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(
+fun SearchPage(
     query: String,
     setQuery: (String) -> Unit,
     onSearch: () -> Unit,
