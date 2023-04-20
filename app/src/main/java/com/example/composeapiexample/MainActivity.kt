@@ -71,52 +71,8 @@ fun SearchPage(
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
-
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 10.dp)
-
-        ) {
-            Box(
-                Modifier.weight(6f)
-            ) {
-                OutlinedTextField(
-                    value = query,
-                    onValueChange = setQuery,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = LightGrey100,
-                        disabledTextColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                )
-            }
-            Box(
-                Modifier.weight(1f)
-            ) {
-                Button(
-                    onClick = onSearch,
-                    contentPadding = PaddingValues(0.dp),
-                    shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Black500
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "",
-                        tint = Color.White
-                    )
-                }
-            }
-
-
-        }
+        TopSearchBar(query = query, setQuery = setQuery, onSearch = onSearch)
         Divider()
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
@@ -135,6 +91,56 @@ fun SearchPage(
                         .fillMaxSize()
                         .aspectRatio(1f)
                         .background(LightGrey100),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TopSearchBar(
+    query: String,
+    setQuery: (String) -> Unit,
+    onSearch: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+
+    ) {
+        Box(
+            Modifier.weight(6f)
+        ) {
+            OutlinedTextField(
+                value = query,
+                onValueChange = setQuery,
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = LightGrey100,
+                    disabledTextColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(8.dp),
+            )
+        }
+        Box(
+            Modifier.weight(1f)
+        ) {
+            Button(
+                onClick = onSearch,
+                contentPadding = PaddingValues(0.dp),
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Black500
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "",
+                    tint = Color.White
                 )
             }
         }
