@@ -1,6 +1,5 @@
 package com.example.composeapiexample
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,7 +14,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -31,12 +29,11 @@ import com.example.composeapiexample.ui.theme.ComposeAPIExampleTheme
 import com.example.composeapiexample.ui.theme.LightGrey100
 
 class MainActivity : ComponentActivity() {
-    @SuppressLint("UnrememberedMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val (query, setQuery) = rememberSaveable { mutableStateOf("") }
-            val list = mutableStateListOf<Document>()
+            val list = rememberSaveable { mutableStateOf(listOf<Document>()) }
 
             ComposeAPIExampleTheme {
                 Surface(
@@ -46,15 +43,17 @@ class MainActivity : ComponentActivity() {
                         query = query, setQuery = setQuery,
                         onSearch = {
                             searchImage(query = query) {
-                                val docs = it["documents"] as List<*>
-                                for (doc in docs) {
+                                val results = it["documents"] as List<*>
+                                val docs = mutableListOf<Document>()
+                                for (result in results) {
                                     val castedDoc =
-                                        Document.fromJson(json = doc as Map<String, Any>)
-                                    list.add(castedDoc)
+                                        Document.fromJson(json = result as Map<String, Any>)
+                                    docs.add(castedDoc)
                                 }
+                                list.value = docs
                             }
                         },
-                        results = list,
+                        results = list.value,
                     )
                 }
             }
@@ -76,8 +75,7 @@ fun SearchPage(
         Divider()
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -105,8 +103,7 @@ fun TopSearchBar(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(horizontal = 20.dp, vertical = 10.dp)
+        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
 
     ) {
         Box(
@@ -138,9 +135,7 @@ fun TopSearchBar(
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "",
-                    tint = Color.White
+                    imageVector = Icons.Default.Search, contentDescription = "", tint = Color.White
                 )
             }
         }
