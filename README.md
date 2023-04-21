@@ -3,6 +3,8 @@
 
 - [Kakao developers에 공개된 search API 문서](https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-image)를 따라 제작합니다.
 
+</br>
+
 ## branch
 
 | branch | 내용 | 설명 |
