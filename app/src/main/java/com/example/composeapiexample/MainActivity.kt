@@ -41,18 +41,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     SearchPage(
                         query = query, setQuery = setQuery,
-                        onSearch = {
-                            searchImage(query = query) {
-                                val results = it["documents"] as List<*>
-                                val docs = mutableListOf<Document>()
-                                for (result in results) {
-                                    val castedDoc =
-                                        Document.fromJson(json = result as Map<String, Any>)
-                                    docs.add(castedDoc)
-                                }
-                                list.value = docs
-                            }
-                        },
+                        onSearch = { searchImage(query = query, documents = list) },
                         results = list.value,
                     )
                 }
