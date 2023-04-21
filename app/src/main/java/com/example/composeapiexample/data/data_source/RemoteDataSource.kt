@@ -19,7 +19,7 @@ fun searchImage(
     documents: MutableState<List<Document>>,
 ) {
     val call: Call<Map<String, Any>> = retrofitAPI.getSearchImage(
-        query = query, token = "KakaoAK 0940c8803b43f3a1f436cb7e88d1f3a5"
+        query = query, token = RemoteDataSourceKey.KakaoAPIKey
     )
 
     call.enqueue(object : Callback<Map<String, Any>?> {
@@ -33,8 +33,7 @@ fun searchImage(
                 val results = responseBody["documents"] as List<*>
                 val docs = mutableListOf<Document>()
                 for (result in results) {
-                    val castedDoc =
-                        Document.fromJson(json = result as Map<String, Any>)
+                    val castedDoc = Document.fromJson(json = result as Map<String, Any>)
                     docs.add(castedDoc)
                 }
                 documents.value = docs
